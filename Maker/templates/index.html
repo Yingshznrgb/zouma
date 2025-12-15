@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upload with Fetch</title>
+</head>
+<body>
+    <h1>Upload via JavaScript</h1>
+    <input type="text" id="textInput" placeholder="Enter text"><br><br>
+    <input type="file" id="imageInput" accept="image/*"><br><br>
+    <button onclick="uploadData()">Submit</button>
+
+    <script>
+        async function uploadData() {
+            const text = document.getElementById('textInput').value;
+            const imageFile = document.getElementById('imageInput').files[0];
+
+            const formData = new FormData();
+            formData.append('text', text);
+            formData.append('image', imageFile);
+
+            try {
+                const response = await fetch('http://<树莓派IP>:5000/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+                const result = await response.json();
+                alert(result.message);
+            } catch (error) {
+                alert("Error: " + error);
+            }
+        }
+    </script>
+</body>
+</html>
